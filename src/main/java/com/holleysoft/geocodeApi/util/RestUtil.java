@@ -2,26 +2,23 @@ package com.holleysoft.geocodeApi.util;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.util.UriBuilder;
 
-import com.holleysoft.geocodeApi.model.geocodedata.GeocodeData;
-
+@Component
 public class RestUtil {
-    WebClient webClient;
+    WebClient webClient = WebClient.create();
     String key = "0e45d113947a0ca900ecd68644300041";
 
-    RestUtil(WebClient webClient){
-        this.webClient = webClient;
+    RestUtil(){
     }   
 
-    public ResponseEntity<GeocodeData> getGeocodeByName(String param, String limit){
-        ResponseEntity<GeocodeData> data = null;
+    public ResponseEntity<String> getGeocodeByName(String param, String limit){
+        ResponseEntity<String> data = null;
         try {
-            URI url = new URI("http://api.openweathermap.org/geo/1.0/direct?" + param + (limit != null ? "&limit=" +limit : "") + "&appid=" + key);
-            data = webClient.get().uri(url).retrieve().toEntity(GeocodeData.class).block();
+            URI url = new URI("http://api.openweathermap.org/geo/1.0/direct?q=" + param + (limit != null ? "&limit=" +limit : "") + "&appid=" + key);
+            data = webClient.get().uri(url).retrieve().toEntity(String.class).block();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }

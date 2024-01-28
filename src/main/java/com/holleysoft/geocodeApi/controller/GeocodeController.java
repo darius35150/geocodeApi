@@ -1,13 +1,10 @@
 package com.holleysoft.geocodeApi.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.holleysoft.geocodeApi.model.geocodedata.GeocodeData;
 import com.holleysoft.geocodeApi.service.GeocodeService;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -20,12 +17,12 @@ public class GeocodeController {
         this.geocodeService = geocodeService;
     }
 
-    @GetMapping("/byName/")
-    public ResponseEntity<GeocodeData> getGeocodeByName(
+    @GetMapping("/byName")
+    public ResponseEntity<String> getGeocodeByName(
         @RequestParam("q") String param,
-        @RequestParam("limit") String limit
+        @RequestParam(value = "limit", required=false) String limit
         ) {
-        ResponseEntity<GeocodeData> geocoodeResponse = geocodeService.getGeocodeByName(param, limit);
+        ResponseEntity<String> geocoodeResponse = geocodeService.getGeocodeByName(param, limit);
         return geocoodeResponse;
     }
     

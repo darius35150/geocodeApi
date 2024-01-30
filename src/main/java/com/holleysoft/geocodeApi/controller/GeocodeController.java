@@ -1,8 +1,12 @@
 package com.holleysoft.geocodeApi.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.holleysoft.geocodeApi.model.geocodedata.GeocodeData;
 import com.holleysoft.geocodeApi.service.GeocodeService;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,11 +22,11 @@ public class GeocodeController {
     }
 
     @GetMapping("/byName")
-    public ResponseEntity<String> getGeocodeByName(
+    public ResponseEntity<List<GeocodeData>> getGeocodeByName(
         @RequestParam("q") String param,
         @RequestParam(value = "limit", required=false) String limit
         ) {
-        ResponseEntity<String> geocoodeResponse = geocodeService.getGeocodeByName(param, limit);
+        ResponseEntity<List<GeocodeData>> geocoodeResponse = geocodeService.getGeocodeByName(param, limit);
         return geocoodeResponse;
     }
     

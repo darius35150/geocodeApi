@@ -121,8 +121,8 @@ public class GeocodeLocalNamesDto {
     String bo;
     String ascii;
     String id;
-    String lva;
-    String caL;
+    String lv;
+    String ca;
     String no;
     String nn;
     String ml;

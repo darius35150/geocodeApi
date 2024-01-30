@@ -13,4 +13,5 @@ public class GeocodeData {
     Long lat;
     Long lon;
     String country;
+    String state;
 }

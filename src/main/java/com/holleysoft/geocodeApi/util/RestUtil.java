@@ -24,4 +24,15 @@ public class RestUtil {
         }
         return data;
     }
+
+    public ResponseEntity<String> getGeocodeByZip(String zip, String conuntryAbbrev){
+        ResponseEntity<String> data = null;
+        try {
+            URI url = new URI("http://api.openweathermap.org/geo/1.0/zip?zip=" + zip + (conuntryAbbrev != null ? "," + conuntryAbbrev : "") + "&appid=" + key);
+            data = webClient.get().uri(url).retrieve().toEntity(String.class).block();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
 }

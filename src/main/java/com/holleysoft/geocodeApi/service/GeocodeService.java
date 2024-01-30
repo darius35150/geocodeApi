@@ -3,22 +3,18 @@ package com.holleysoft.geocodeApi.service;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.holleysoft.geocodeApi.model.geocodedata.GeocodeData;
 import com.holleysoft.geocodeApi.model.geocodedata.GeocodeLocalNamesDto;
+import com.holleysoft.geocodeApi.model.geocodezip.GeocodeByZipDto;
 
 import java.util.*;
 
 import com.holleysoft.geocodeApi.util.RestUtil;
 
-import io.micrometer.common.util.StringUtils;
-import lombok.extern.slf4j.Slf4j;
-
 @Service
-@Slf4j
 public class GeocodeService {
     RestUtil restUtil;
 
@@ -30,6 +26,11 @@ public class GeocodeService {
         ResponseEntity<String> geocoodeResponse = restUtil.getGeocodeByName(param, limit);
         
         return mapDataToGeocodeDataDto(geocoodeResponse);
+    }
+    
+    public ResponseEntity<GeocodeByZipDto> getGeocodeByZip(String zip, String countryAbbrev){
+        ResponseEntity<String> zipResponse = restUtil.getGeocodeByZip(zip, countryAbbrev);
+        return mapDataToGeocodeByZipDto(zipResponse);
     }
 
     private ResponseEntity<List<GeocodeData>> mapDataToGeocodeDataDto(ResponseEntity<String> geocodeResponse) {
@@ -498,5 +499,33 @@ public class GeocodeService {
         if (object.has("ur")) {
             geocodeLocalNamesDto.setUr(object.getString("ur"));
         }
+    }
+
+    private ResponseEntity<GeocodeByZipDto> mapDataToGeocodeByZipDto(ResponseEntity<String> zipResponse){
+
+        GeocodeByZipDto zipData = new GeocodeByZipDto();
+        JSONObject jsonObject = new JSONObject(zipResponse.getBody().toString());
+        
+        if(jsonObject.has("zip")){
+            zipData.setZip(jsonObject.getString("zip"));;
+        }
+
+        if(jsonObject.has("name")){
+            zipData.setName(jsonObject.getString("name"));;
+        }
+
+        if(jsonObject.has("lat")){
+            zipData.setLat(jsonObject.getLong("lat"));;
+        }
+
+        if(jsonObject.has("lon")){
+            zipData.setLon(jsonObject.getLong("lon"));;
+        }
+
+        if(jsonObject.has("country")){
+            zipData.setCountry(jsonObject.getString("country"));;
+        }
+
+        return new ResponseEntity<GeocodeByZipDto>(zipData, HttpStatus.OK);
     }
 }

@@ -7,9 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.holleysoft.geocodeApi.model.geocodedata.GeocodeData;
+import com.holleysoft.geocodeApi.model.geocodezip.GeocodeByZipDto;
 import com.holleysoft.geocodeApi.service.GeocodeService;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -29,5 +31,13 @@ public class GeocodeController {
         ResponseEntity<List<GeocodeData>> geocoodeResponse = geocodeService.getGeocodeByName(param, limit);
         return geocoodeResponse;
     }
+
+    @GetMapping("/byZip/{zip}")
+    public ResponseEntity<GeocodeByZipDto> getMethodName(@PathVariable String zip, @RequestParam(value = "countryAbbrev", required = false) String countryAbbrev) {
+
+        ResponseEntity<GeocodeByZipDto> zipResponse = geocodeService.getGeocodeByZip(zip, countryAbbrev);
+        return zipResponse;
+    }
+    
     
 }

@@ -522,11 +522,11 @@ public class GeocodeService {
         }
 
         if(jsonObject.has("lat")){
-            zipData.setLat(jsonObject.getLong("lat"));;
+            zipData.setLat(jsonObject.getBigDecimal("lat"));;
         }
 
         if(jsonObject.has("lon")){
-            zipData.setLon(jsonObject.getLong("lon"));;
+            zipData.setLon(jsonObject.getBigDecimal("lon"));;
         }
 
         if(jsonObject.has("country")){

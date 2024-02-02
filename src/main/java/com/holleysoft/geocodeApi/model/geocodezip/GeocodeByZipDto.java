@@ -2,6 +2,7 @@ package com.holleysoft.geocodeApi.model.geocodezip;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import java.math.BigDecimal;
 
 import lombok.Data;
 
@@ -10,7 +11,7 @@ import lombok.Data;
 public class GeocodeByZipDto {
     String zip;
     String name;
-    Long lat;
-    Long lon;
+    BigDecimal lat;
+    BigDecimal lon;
     String country;
 }

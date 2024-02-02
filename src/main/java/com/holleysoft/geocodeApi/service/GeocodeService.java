@@ -33,10 +33,16 @@ public class GeocodeService {
         return mapDataToGeocodeByZipDto(zipResponse);
     }
 
+    public ResponseEntity<List<GeocodeData>> getGeocodeByCoordinates(String lat, String lon, String limit){
+        ResponseEntity<String> coordinatesResponse = restUtil.getGeocodeByCoordinates(lat, lon, limit);
+        System.out.println(coordinatesResponse.getBody());
+        return mapDataToGeocodeDataDto(coordinatesResponse);
+    }
+
     private ResponseEntity<List<GeocodeData>> mapDataToGeocodeDataDto(ResponseEntity<String> geocodeResponse) {
         List<GeocodeData> geocodeDataList = new ArrayList();
         GeocodeData geocodeData = new GeocodeData();
-        GeocodeLocalNamesDto geocodeLocalNamesDto = new GeocodeLocalNamesDto();
+        // GeocodeLocalNamesDto geocodeLocalNamesDto = new GeocodeLocalNamesDto();
         JSONArray jsonArray = new JSONArray(geocodeResponse.getBody().toString());
 
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -44,17 +50,17 @@ public class GeocodeService {
                 geocodeData.setName(jsonArray.getJSONObject(i).getString("name"));
             }
 
-            if (jsonArray.getJSONObject(i).has("local_names")) {
-                mapLocalNamesData(jsonArray.getJSONObject(i).getJSONObject("local_names"), geocodeLocalNamesDto);
-                geocodeData.setLocal_names(geocodeLocalNamesDto);
-            }
+            // if (jsonArray.getJSONObject(i).has("local_names")) {
+            //     mapLocalNamesData(jsonArray.getJSONObject(i).getJSONObject("local_names"), geocodeLocalNamesDto);
+            //     geocodeData.setLocal_names(geocodeLocalNamesDto);
+            // }
 
             if (jsonArray.getJSONObject(i).has("lat")){
-                geocodeData.setLat(jsonArray.getJSONObject(i).getLong("lat"));
+                geocodeData.setLat(jsonArray.getJSONObject(i).getBigDecimal("lat"));
             }
 
             if (jsonArray.getJSONObject(i).has("lon")){
-                geocodeData.setLon(jsonArray.getJSONObject(i).getLong("lon"));
+                geocodeData.setLon(jsonArray.getJSONObject(i).getBigDecimal("lon"));
             }
 
             if (jsonArray.getJSONObject(i).has("country")){
@@ -65,6 +71,7 @@ public class GeocodeService {
                 geocodeData.setState(jsonArray.getJSONObject(i).getString("state"));
             }
             geocodeDataList.add(geocodeData);
+            geocodeData = new GeocodeData();
         }
         return new ResponseEntity<List<GeocodeData>>(geocodeDataList, HttpStatus.OK);
     }

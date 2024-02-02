@@ -33,10 +33,18 @@ public class GeocodeController {
     }
 
     @GetMapping("/byZip/{zip}")
-    public ResponseEntity<GeocodeByZipDto> getMethodName(@PathVariable String zip, @RequestParam(value = "countryAbbrev", required = false) String countryAbbrev) {
+    public ResponseEntity<GeocodeByZipDto> getMethodName(@PathVariable String zip, 
+    @RequestParam(value = "countryAbbrev", required = false) String countryAbbrev) {
 
         ResponseEntity<GeocodeByZipDto> zipResponse = geocodeService.getGeocodeByZip(zip, countryAbbrev);
         return zipResponse;
+    }
+    
+    @GetMapping("byCoordinates/{lat}/{lon}")
+    public ResponseEntity<List<GeocodeData>> getMethodName(
+        @PathVariable String lat, @PathVariable String lon, @RequestParam(value = "limit", required = false) String limit) {
+            ResponseEntity<List<GeocodeData>> latLonResponse = geocodeService.getGeocodeByCoordinates(lat, lon, limit);
+            return latLonResponse;
     }
     
     

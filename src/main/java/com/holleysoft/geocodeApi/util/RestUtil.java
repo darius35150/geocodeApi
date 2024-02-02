@@ -35,4 +35,15 @@ public class RestUtil {
         }
         return data;
     }
+
+    public ResponseEntity<String> getGeocodeByCoordinates(String lat, String lon, String limit){
+        ResponseEntity<String> data = null;
+        try {
+            URI url = new URI("http://api.openweathermap.org/geo/1.0/reverse?lat=" + lat + "&lon=" + lon + (limit != null ? "&limit=" + limit : "") + "&appid=" + key);
+            data = webClient.get().uri(url).retrieve().toEntity(String.class).block();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
 }

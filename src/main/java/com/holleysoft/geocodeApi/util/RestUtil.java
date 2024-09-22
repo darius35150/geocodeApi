@@ -2,6 +2,8 @@ package com.holleysoft.geocodeApi.util;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Objects;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -14,10 +16,16 @@ public class RestUtil {
     RestUtil(){
     }   
 
-    public ResponseEntity<String> getGeocodeByName(String param, String limit){
+    public ResponseEntity<String> getGeocodeByName(String city, String state, String countryAbbrev, String limit){
         ResponseEntity<String> data = null;
+        String queryUrl = "http://api.openweathermap.org/geo/1.0/direct?q=";
+        String limitString = "&limit=" + limit;
+        String appIdString = "&appid=".concat(key);
+        String completeUrl = queryUrl.concat(city).concat(!Objects.isNull(state) ? "," + state : "")
+                                        .concat(!Objects.isNull(countryAbbrev) ? "," + countryAbbrev : "")
+                                        .concat(!Objects.isNull(limit) ? limitString + appIdString : appIdString);
         try {
-            URI url = new URI("http://api.openweathermap.org/geo/1.0/direct?q=" + param + (limit != null ? "&limit=" +limit : "") + "&appid=" + key);
+            URI url = new URI(completeUrl);
             data = webClient.get().uri(url).retrieve().toEntity(String.class).block();
         } catch (URISyntaxException e) {
             e.printStackTrace();

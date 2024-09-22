@@ -25,10 +25,12 @@ public class GeocodeController {
 
     @GetMapping("/byName")
     public ResponseEntity<List<GeocodeData>> getGeocodeByName(
-        @RequestParam("q") String param,
+        @RequestParam("city") String city,
+        @RequestParam(value = "state", required = false) String state,
+        @RequestParam(value="countryAbbrev", required= false) String countryAbbrev,
         @RequestParam(value = "limit", required=false) String limit
         ) {
-        ResponseEntity<List<GeocodeData>> geocoodeResponse = geocodeService.getGeocodeByName(param, limit);
+        ResponseEntity<List<GeocodeData>> geocoodeResponse = geocodeService.getGeocodeByName(city, state, countryAbbrev, limit);
         return geocoodeResponse;
     }
 

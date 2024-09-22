@@ -22,8 +22,8 @@ public class GeocodeService {
         this.restUtil = restUtil;
     }
 
-    public ResponseEntity<List<GeocodeData>> getGeocodeByName(String param, String limit) {
-        ResponseEntity<String> geocoodeResponse = restUtil.getGeocodeByName(param, limit);
+    public ResponseEntity<List<GeocodeData>> getGeocodeByName(String city, String state, String countryAbbrev, String limit) {
+        ResponseEntity<String> geocoodeResponse = restUtil.getGeocodeByName(city, state, countryAbbrev, limit);
         
         return mapDataToGeocodeDataDto(geocoodeResponse);
     }

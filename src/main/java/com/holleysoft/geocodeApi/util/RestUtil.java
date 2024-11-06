@@ -11,7 +11,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Component
 public class RestUtil {
     WebClient webClient = WebClient.create();
-    String key = "0e45d113947a0ca900ecd68644300041";
+    String key = null;
 
     RestUtil(){
     }   
